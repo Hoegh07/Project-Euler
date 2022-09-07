@@ -1,0 +1,52 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+
+\begin{document}
+\section*{Euler 307: Chip Defects}
+
+$k$ defects are randomly distributed amongst $n$ circuit chips. 
+Let $p(k,n)$ denote the probability that there is some chip with
+at least $3$ defects. This problem asks us to find $p(20000,1000000)$. 
+
+We compute the probability of the complementary event. The probability
+that $a_i$ defects affect chip $i$ for all $i\in [n]$, where $\sum_i a_i
+= k$, is given by the probability mass of the multinomial distribution, 
+that is,
+\begin{align*}
+	\mbox{Pr}(a_1,\dots, a_n) = \frac{k!}{a_1 !\cdots a_n !}\frac{1}{n^k}. 
+\end{align*}
+Now, we have to find the probability that $a_i\leq 2$ for all $i$. This
+may be computed as follows:
+\begin{align*}
+	\sum_{k = s+2t}\binom{n}{s}\binom{n-s}{t}\mbox{Pr}(1,\dots,1,2,\dots,2,0,\dots,0)
+\end{align*}
+where there are $s$ ones, $t$ twos and $n-s-t$ zeroes. After some
+manipulations of the summands, this may be done without underflow issues.
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
