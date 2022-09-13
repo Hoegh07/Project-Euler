@@ -1,12 +1,8 @@
-memof = {}
+memof = {1:1,3:3}
 
 def f(n):
     if(n in memof):
         return memof[n]
-    if(n == 1):
-        return 1
-    if(n == 3):
-        return 3
     if(n%2 == 0):
         a = f(n//2)
         memof[n] = a
@@ -22,41 +18,32 @@ def f(n):
         memof[n] = a
         return a
 
-memo = {}
-MOD = 10**9
+memo = {1:1,2:2,3:5}
 def S(N):
     if(N in memo):
         return memo[N]
-    if(N == 1):
-        return f(1)
-    if(N == 2):
-        return f(1)+f(2)
-    if(N == 3):
-        return f(1)+f(2)+f(3)
-    
+
     n = N//4
     if(N%4 == 0):
-        a = (6*(S(2*n+1)-1)-8*S(n)-f(4*n+1)-f(4*n+2)-f(4*n+3)+5) % MOD
+        a = (6*(S(2*n+1)-1)-8*S(n)-f(4*n+1)-f(4*n+2)-f(4*n+3)+5)
         memo[N] = a
         return a
     if(N%4 == 1):
-        a = (6*(S(2*n+1)-1)-8*S(n)-f(4*n+2)-f(4*n+3)+5) % MOD
+        a = (6*(S(2*n+1)-1)-8*S(n)-f(4*n+2)-f(4*n+3)+5)
         memo[N] = a
         return a
     if(N%4 == 2):
-        a = (6*(S(2*n+1)-1)-8*S(n)-f(4*n+3)+5) % MOD
+        a = (6*(S(2*n+1)-1)-8*S(n)-f(4*n+3)+5)
         memo[N] = a
         return a
     if(N%4 == 3):
-        a = (6*(S(2*n+1)-1)-8*S(n)+5) % MOD
+        a = (6*(S(2*n+1)-1)-8*S(n)+5)
         memo[N] = a
         return a
 
+MOD = 10**9
 N = 3**37
 print(S(N)%MOD)
-print()
-print(len(memof))
-print(len(memo))
 
 
 
