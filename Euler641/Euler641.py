@@ -1,7 +1,8 @@
 def sieve(limit):
     a = [True] * limit                          # Initialize the primality list
     a[0] = a[1] = False
-
+    
+    %OVERVEJ AT SKIFTE FRA ENUMERATE TIL NORMALT LOOP...
     for (i, isprime) in enumerate(a):
         if isprime:
             yield i
