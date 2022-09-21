@@ -1,71 +1,57 @@
-import math
-from scipy.integrate import quad as quad
-import numpy
+from scipy.integrate import quad
+import math 
 
+#Noget galt med x og y...
+def x(t,v):
+    return (1-t)**3+3*(1-t)**2*t+3*(1-t)*t**2*v
 
-def xy(t,v):
-    P0 = numpy.array([1,0])
-    P1 = numpy.array([1,v])
-    P2 = numpy.array([v,1])
-    P3 = numpy.array([0,1])
+def y(t,v):
+    return 3*(1-t)**2*t*v+3*(1-t)*t**2+t**3
 
-    B = (1-t)**3*P0+3*(1-t)**2*t*P1
-    B += 3*(1-t)*t**2*P2
-    B += t**3*P3
-    return max(B[0],0),max(B[1],0)
+def dxdt(t,v):
+    return t*t*(6 - 9*v) + t*(-6 + 6*v)
 
-def dxy(t,v):
-    P0 = numpy.array([1,0])
-    P1 = numpy.array([1,v])
-    P2 = numpy.array([v,1])
-    P3 = numpy.array([0,1])
+def dydt(t,v):
+    return -3*(1-t)*(t*(3*v-2)-v) 
 
-    B = 3*(1-t)**2*(P1-P0)
-    B += 6*(1-t)*t*(P2-P1)+3*t**2*(P3-P2)
-    return B[0],B[1]
-
-
-#Areal af området begrænset af Bezierkurven
-#og linjestykkerne O-P0 og O-P3.
 
 def integrand(t,v):
-    _,y = xy(t,v)
-    dxdt,_ = dxy(t,v)
-    return dxdt*y
+    return math.sqrt(dxdt(t,v)**2+dydt(t,v)**2)
 
-def area(v):
-    return quad(integrand,0,1,args=(v))
+v = 0.25
+I = quad(integrand,0,1,args=(v))
 
-def integrand_L(t,v):
-    dxdt,dydt = dxy(t,v)
-    return math.sqrt(dxdt**2+dydt**2)
-
-def arclength(v):
-    return quad(integrand_L,0,1,args=(v))
-
-A = math.pi/4
-L = math.pi/2
+def integrand_area(t,v):
+    return y(t,v)*dxdt(t,v)
 
 vlow = 0
 vhigh = 10
-
-print(area(vlow))
-print(area(vhigh))
-print("ABE")
-
-while(vhigh-vlow > 0.000001):
+while(vhigh-vlow > 0.000000000001):
     vmid = (vhigh+vlow)/2
-    a = area(vmid)[0]
-    if(a < A):
-        vlow = vmid
+    temp = quad(integrand_area,0,1,args=(vmid))[0]
+    if(temp < math.pi/4):
+        vlow,vhigh = vmid,vhigh
     else:
-        vhigh = vmid
+        vlow,vhigh = vlow,vmid
 
-
-print(area(vlow))
-print(A)
-print()
+#Find kurvelængde for vlow
+print("SVAR")
 print(vlow)
+print((2+((22+5*math.pi)/3)**0.5))
+from math import pi as pi
+
+L = quad(integrand,0,1,args=(vlow))[0]
+print()
+print("ABE")
+print(L)
+print(pi/2)
+
+print(100*(L-pi/2)/(pi/2))
+
+print()
+print(x(0,vlow),y(0,vlow))
+print(x(1,vlow),y(1,vlow))
+
 
 
 

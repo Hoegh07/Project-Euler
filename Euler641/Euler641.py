@@ -2,8 +2,8 @@ def sieve(limit):
     a = [True] * limit                          # Initialize the primality list
     a[0] = a[1] = False
 
-    for (i, isprime) in enumerate(a):
-        if isprime:
+    for i in range(2,limit):
+        if(a[i] == True): 
             yield i
             for n in range(i*i, limit, i):     # Mark factors non-prime
                 a[n] = False
@@ -90,7 +90,7 @@ def powerful(P,N,p,prod,pos,s):
 
 
 N = 10**36
-pri = sieve(4*10**8)
+pri = sieve(5*10**8)
 primes = [p for p in pri]
 print()
 print("ABE")
@@ -109,7 +109,6 @@ def solve(P,N,ndiv,prod,pos):
                 continue
             if(((j+1)*ndiv)%6 == 1):
                 total += 1
-                #print(prod*p**j)
             total += solve(P,N,((j+1)*ndiv)%6,p**j*prod,i+1)
             j += 2
             
