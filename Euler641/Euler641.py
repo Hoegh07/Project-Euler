@@ -1,9 +1,16 @@
 def sieve(limit):
     a = [True] * limit                          # Initialize the primality list
     a[0] = a[1] = False
+<<<<<<< HEAD
 
     for i in range(2,limit):
         if(a[i] == True): 
+=======
+    
+    %OVERVEJ AT SKIFTE FRA ENUMERATE TIL NORMALT LOOP...
+    for (i, isprime) in enumerate(a):
+        if isprime:
+>>>>>>> f098603a857cb7205926f67644efe564a8ebde39
             yield i
             for n in range(i*i, limit, i):     # Mark factors non-prime
                 a[n] = False
