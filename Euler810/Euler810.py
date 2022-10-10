@@ -45,7 +45,7 @@ def bin_to_nat(b):
             res += 2**i
     return res
 
-
+N = 1
 for i in range(2,N):
     f = bin(i)[2:][::-1]
 
@@ -60,19 +60,9 @@ for i in range(2,N):
             continue
         A[y] = 0
     
-for i in range(2,20):
-    if(A[i] == 1):
-        print(bin(i)[2:])
 
+print()
 
-c = 0
-for i in range(2,N+1):
-    if(A[i] == 1):
-        c += 1
-    if(c == 5000000):
-        print("LØSNING")
-        print(i)
-        print(bin(i)[2:])
 
 
 
