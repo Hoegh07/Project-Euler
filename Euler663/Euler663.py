@@ -40,6 +40,32 @@ class SegmentTree:
         
         #right child
         self.make(2*i+1,m+1,b)
+
+    def build(self,A):
+        for j in range(len(self.lo)-1,0,-1):
+            a = self.lo[j]
+            b = self.hi[j]
+
+            if(a == b):
+                self.sum[j] = A[a]
+                self.ps[j] = max(A[a],0)
+                self.ss[j] = max(A[a],0)
+                self.bs[j] = max(A[a],0)
+                continue
+
+            ls,lps,lss,lbs = self.sum[2*j],self.ps[2*j],self.ss[2*j],self.bs[2*j]
+            rs,rps,rss,rbs = self.sum[2*j+1],self.ps[2*j+1],self.ss[2*j+1],self.bs[2*j+1]
+            
+            s = ls+rs
+            ps = max(lps,max(ls+rps,0))
+            ss = max(rss,max(lss+rs,0))
+            bs = max(lbs,max(rbs,max(lss+rps,0)))
+
+            self.sum[j] = s
+            self.ps[j] = ps
+            self.ss[j] = ss
+            self.bs[j] = bs
+            
     
    
     def update(self,i,val):
@@ -97,79 +123,49 @@ print(1618572)
 print()
 
 n = 10**7+3
-l = 10**7+2*10**5
+l = 10**7
+r = 2*10**5
 
 #Lav array med tribonaccital og A
 t0,t1,t2 = 0,0,1
 T = [t0,t1,t2]
-for j in range(3,2*l+1):
+for j in range(3,4*l+1):
     T.append((T[j-3]+T[j-2]+T[j-1])%n)
 A = [0]*(n+1)
 
-print("A")
-#Lav de første 10⁷ opdateringer til A!
-for i in range(1,10**7+1):
-    A[T[2*i-2]] = A[T[2*i-2]]+2*T[2*i-1]-n+1
-
-print("B")
-#Indsæt A i et Segment tree
 ST = SegmentTree(n)
-#for i in range(0,10**7):
-#    ST.update(i,A[i])
 
-#FOR NAIVT
-print("C")
+for i in range(1,l+1):
+    if(i%100000 == 1):
+        print(i)
+    A[T[2*i-2]] = A[T[2*i-2]]+2*T[2*i-1]-n+1
+    ST.update(T[2*i-2],A[T[2*i-2]])
+
 res = 0
-for i in range(10**7+1,10**7+10**5+1):
+#Kør de sidste r opdateringer
+#og læg bedste sum til resultat
+for i in range(l+1,l+r+1):
     A[T[2*i-2]] = A[T[2*i-2]]+2*T[2*i-1]-n+1
     ST.update(T[2*i-2],A[T[2*i-2]])
     res += ST.bs[1]
+
 print(res)
 print(1884138010064752)
 
+print()
+print("Bedre løsning")
+ST = SegmentTree(n)
+res = 0
+for i in range(1,l+1):
+    A[T[2*i-2]] = A[T[2*i-2]]+2*T[2*i-1]-n+1
+ST.build(A)
 
+for i in range(l+1,l+r+1):
+    A[T[2*i-2]] = A[T[2*i-2]]+2*T[2*i-1]-n+1
+    ST.update(T[2*i-2],A[T[2*i-2]])
+    res += ST.bs[1]
 
-#**** LØSNING SOM FUNGERER, MEN LIDT FOR LANGSOMT****###
-#print("***LOOP PÅBEGYNDES***")
-#for i in range(1,l+1):
-#    A[T[2*i-2]] = A[T[2*i-2]]+2*T[2*i-1]-n+1
-#    ST.update(T[2*i-2],A[T[2*i-2]])
-#    if(i%100000 == 0):
-#        print(i)
-#    if(i > 10**7):
-#        res += ST.bs[1]
-
-
-#Kør de sidste 10^7 opdateringer
-#og læg bedste sum til resultat
-#for i in range(l+1,l+200000+1):
-#    A[T[2*i-2]] = A[T[2*i-2]]+2*T[2*i-1]-n+1
-#    ST.update(T[2*i-2],A[T[2*i-2]])
-#    res += ST.bs[1]
-
-#print(res)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+print(res)
 
 
 
