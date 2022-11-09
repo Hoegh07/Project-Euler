@@ -43,7 +43,6 @@ for a in range(1,10**4+10):
             A[x] = a
             B[x] = b
 
-print("ABE1")
 def Gdivisors(P,v):
     div = [[1,0]]
     for i in range(0,len(P)):
@@ -56,7 +55,6 @@ def Gdivisors(P,v):
     return div
 
 
-print("ABE")
 print()
 res = 1
 for n in range(2,N):
@@ -114,7 +112,7 @@ for n in range(2,N):
             t = udiv[l]
     res += q
     
-    if(n in [7,11,13,7*11,7*13,11*13,7*11*13]):
+    if(n in [5,5**2,5**3,5**4,5**5]):
         print(n,q)
 
 
